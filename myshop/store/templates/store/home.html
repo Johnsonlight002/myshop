@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - MyShop{% endblock %}
+
+{% block content %}
+    <div class="text-center py-10">
+        <h1 class="text-5xl font-extrabold text-blue-600 animate-pulse">Welcome to MyShop</h1>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-10">
+        {% for product in products %}
+        <div class="bg-gradient-to-br from-purple-500 to-indigo-600 text-white shadow-xl rounded-xl p-6 transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+            <h2 class="text-2xl font-bold">{{ product.name }}</h2>
+            <p class="text-lg font-semibold">Price: ${{ product.price }}</p>
+            <form action="{% url 'add_to_cart' product.id %}" method="POST" class="mt-4">
+                {% csrf_token %}
+                <label for="quantity_{{ product.id }}" class="block text-sm font-medium">Quantity:</label>
+                <select name="quantity" id="quantity_{{ product.id }}" class="mt-2 p-2 border rounded w-full text-black">
+                    {% for i in quantity_range %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="mt-4 bg-yellow-400 text-black font-bold py-2 px-4 rounded-lg w-full hover:bg-yellow-500 transform hover:scale-110 transition-all duration-300">
+                    🛒 Add to Cart
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-10 px-10">
+        <h2 class="text-3xl font-bold text-indigo-700">Your Cart</h2>
+        <div class="bg-gray-100 p-6 rounded-lg mt-4 shadow-md animate-fade-in">
+            {% if cart_items %}
+                <ul class="space-y-4">
+                    {% for item in cart_items %}
+                    <li class="flex justify-between items-center bg-white p-4 rounded-lg shadow-lg border-l-4 border-green-400 transform hover:scale-105 transition-all duration-300">
+                        <span class="text-lg font-medium text-gray-700">{{ item.name }} - ${{ item.price }} (Quantity: {{ item.quantity }})</span>
+                        <a href="{% url 'remove_from_cart' item.id %}" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transform hover:scale-110 transition-all duration-300">
+                            ❌ Remove
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="mt-6 text-center">
+                    <a href="{% url 'checkout' %}" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-600 transform hover:scale-110 transition-all duration-300">
+                        ✅ Proceed to Checkout
+                    </a>
+                </div>
+            {% else %}
+                <p class="text-gray-600 text-center text-lg">🛒 Your cart is empty.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

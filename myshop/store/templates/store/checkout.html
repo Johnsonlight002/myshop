@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+    <h1>Checkout Page</h1>
+    <p>Review your order before making a payment.</p>
+    <a href="{% url 'payment' %}" class="btn btn-success">Proceed to Payment</a>
+{% endblock %}

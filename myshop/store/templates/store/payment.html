@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-96 text-center animate-fade-in">
+        <h1 class="text-3xl font-bold text-green-600 mb-4">Secure Payment</h1>
+        <p class="text-gray-700 mb-6">Click the button below to complete your payment.</p>
+        
+        <div class="flex justify-center">
+            <form action="/charge/" method="POST" class="w-full">
+                <script
+                    src="https://checkout.stripe.com/checkout.js"
+                    class="stripe-button"
+                    data-key="your_stripe_publishable_key"
+                    data-amount="5000"
+                    data-name="MyShop"
+                    data-description="Checkout"
+                    data-currency="usd">
+                </script>
+            </form>
+        </div>
+        
+        <p class="text-sm text-gray-500 mt-4">Powered by Stripe</p>
+    </div>
+</div>
+{% endblock %}
